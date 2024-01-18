@@ -5,11 +5,12 @@
     
         $username = $data->username;
         $password = $data->password;
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $first_name = $data->firstName;
         $last_name = $data->lastName;
         $email = $data->email;
     
-        $sql = "INSERT INTO users (username, first_name, last_name, password, email) VALUES ('$username', '$first_name', '$last_name', '$password', '$email')";
+        $sql = "INSERT INTO users (username, first_name, last_name, password, email) VALUES ('$username', '$first_name', '$last_name', '$hashedPassword', '$email')";
         if ($conn->query($sql) == TRUE) {
             echo json_encode(["message" => "Recipe added successfully"]);
         } else {

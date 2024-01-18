@@ -8,9 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "SELECT * FROM users WHERE username = '$username'";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-        echo json_encode(['Unavailable' => false]);
+        echo json_encode(['Available' => false]);
     } else {
-        echo json_encode(true);
+        echo json_encode(['Available' => true]);
     }
 }
 

@@ -19,13 +19,13 @@ const Signup = () => {
 
         //Perform validation
         if (!firstName || !lastName || !username || !password || !confirmPassword || !email) {
-            setErrors({ message: 'All fields are required' });
+            setErrors({...errors, message: 'All fields are required' });
             setSigningUp(false);
             return
         }
 
         if (password !== confirmPassword) {
-            setErrors({ message: 'Password do not match' });
+            setErrors({...errors, message: 'Password do not match' });
             setSigningUp(false);
             return;
         }
@@ -34,7 +34,7 @@ const Signup = () => {
         const isUsernameAvailable = await checkUsernameAvailability(username);
 
         if (!isUsernameAvailable) {
-            setErrors({ message: 'Username is already taken' });
+            setErrors({...errors, message: 'Username is already taken' });
             setSigningUp(false);
             return;
         }
@@ -57,7 +57,7 @@ const Signup = () => {
             })
             .catch((error) => {
                 console.error('Signup failed:', error);
-                setErrors({ message: 'Signup failed. Please try again.' });
+                setErrors({...errors, message: 'Signup failed. Please try again.' });
             })
             .finally(() => {
                 setSigningUp(false);
@@ -75,13 +75,7 @@ const Signup = () => {
                 username,
             });
     
-            if (response.data.success) {
-                console.log("Username is available: ", response.data);
-                return true;
-            } else {
-                console.log("Username is taken: ", response.data);
-                return false;
-            }
+            return response.data.available !== false;
         } catch (error) {
             console.error('There was an error finding username', error);
             return false;
